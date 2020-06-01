@@ -11,7 +11,6 @@
     </NuxtLink>
   </v-app>
 </template>
-
 <script>
 export default {
   layout: 'empty',
@@ -21,13 +20,13 @@ export default {
       default: null
     }
   },
-  data () {
+  data() {
     return {
       pageNotFound: '404 Not Found',
       otherError: 'An error occurred'
     }
   },
-  head () {
+  head() {
     const title =
       this.error.statusCode === 404 ? this.pageNotFound : this.otherError
     return {
