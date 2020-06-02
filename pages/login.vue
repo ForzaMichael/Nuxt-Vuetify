@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      Login
+      {{ id }}
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -34,24 +34,71 @@
   </v-card>
 </template>
 <script>
-export default {
+import {
+  defineComponent,
+  computed,
+  ref,
+  reactive,
+  onMounted
+} from '@vue/composition-api'
+export default defineComponent({
   layout: 'login-layout',
-  data: () => ({
-    valid: true,
-    name: '',
-    nameRules: [
+  setup(props, { root }) {
+    onMounted(() => {
+      console.log(props, root)
+    })
+    const valid = ref(true)
+    const name = ref('')
+    const email = ref('')
+    const nameRules = reactive([
       v => !!v || 'Name is required',
       v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-    ],
-    email: '',
-    emailRules: [
+    ])
+    const emailRules = reactive([
       v => !!v || 'E-mail is required',
       v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-    ]
-  }),
+    ])
+    const id = computed(() => 10)
+    const validate = () => {
+      if (this.$refs.form.validate()) {
+        this.store.commit('changeId', name.value)
+        // this.$router.push('/')
+      }
+    }
+    return {
+      valid,
+      name,
+      nameRules,
+      email,
+      emailRules,
+      id,
+      validate
+    }
+  },
+  // data: () => ({
+  //   valid: true,
+  //   name: '',
+  //   nameRules: [
+  //     v => !!v || 'Name is required',
+  //     v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+  //   ],
+  //   email: '',
+  //   emailRules: [
+  //     v => !!v || 'E-mail is required',
+  //     v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+  //   ]
+  // }),
+  // computed: {
+  //   id() {
+  //     return this.$store.state.login.id
+  //   }
+  // },
   methods: {
     validate() {
-      this.$refs.form.validate()
+      if (this.$refs.form.validate()) {
+        this.store.commit('changeId', this.name)
+        // this.$router.push('/')
+      }
     },
     reset() {
       this.$refs.form.reset()
@@ -60,5 +107,5 @@ export default {
       this.$refs.form.resetValidation()
     }
   }
-}
+})
 </script>
