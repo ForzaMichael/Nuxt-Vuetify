@@ -1,5 +1,5 @@
 {
-  "name": "myFirstNuxt",
+  "name": "my-first-nuxt",
   "version": "1.0.0",
   "description": "My swell Nuxt.js project",
   "author": "Liqi",
@@ -11,6 +11,12 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "test": "jest"
+  },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "3000"
+    }
   },
   "dependencies": {
     "nuxt": "^2.0.0",

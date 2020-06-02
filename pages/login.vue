@@ -1,47 +1,64 @@
 <template>
-  <v-card class="overflow-hidden">
-    <v-app-bar
-      absolute
-      color="#43a047"
-      dark
-      shrink-on-scroll
-      prominent
-      src="https://picsum.photos/1920/1080?random"
-      fade-img-on-scroll
-      scroll-target="#scrolling-techniques-5"
-      scroll-threshold="500"
-    >
-      <template v-slot:img="{ props }">
-        <v-img
-          v-bind="props"
-          gradient="to top right, rgba(55,236,186,.7), rgba(25,32,72,.7)"
-        ></v-img>
-      </template>
+  <v-card class="mx-auto" hover width="400" elevation="5" shaped>
+    <v-card-title>
+      Login
+    </v-card-title>
+    <v-card-text>
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-text-field
+          v-model="name"
+          :counter="10"
+          :rules="nameRules"
+          label="Name"
+          required
+        ></v-text-field>
 
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Title</v-toolbar-title>
-
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          label="E-mail"
+          required
+        ></v-text-field>
+      </v-form>
+    </v-card-text>
+    <v-divider></v-divider>
+    <v-card-actions>
+      <v-btn color="success">
+        Register
+      </v-btn>
       <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
+      <v-btn :disabled="!valid" color="primary" @click="validate">
+        Validate
       </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-sheet
-      id="scrolling-techniques-5"
-      class="overflow-y-auto"
-      max-height="600"
-    >
-      <v-container style="height: 1500px;"></v-container>
-    </v-sheet>
+    </v-card-actions>
   </v-card>
 </template>
+<script>
+export default {
+  layout: 'login-layout',
+  data: () => ({
+    valid: true,
+    name: '',
+    nameRules: [
+      v => !!v || 'Name is required',
+      v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+    ],
+    email: '',
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+    ]
+  }),
+  methods: {
+    validate() {
+      this.$refs.form.validate()
+    },
+    reset() {
+      this.$refs.form.reset()
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation()
+    }
+  }
+}
+</script>

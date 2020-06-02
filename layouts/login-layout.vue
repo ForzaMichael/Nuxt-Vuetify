@@ -1,16 +1,10 @@
 <template>
-  <v-card class="overflow-hidden">
+  <v-app>
     <v-app-bar
       app
-      absolute
       color="#43a047"
-      dark
-      shrink-on-scroll
-      prominent
       src="https://picsum.photos/1920/1080?random"
-      fade-img-on-scroll
-      scroll-target="#scrolling-techniques-5"
-      scroll-threshold="500"
+      dense
     >
       <template v-slot:img="{ props }">
         <v-img
@@ -19,9 +13,7 @@
         ></v-img>
       </template>
 
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Title</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -32,15 +24,34 @@
       <v-btn icon>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
-
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-content>
-      <v-row align="center" justify="center">
-        <nuxt />
-      </v-row>
+    <v-content class="d-flex justify-center align-center">
+      <nuxt />
     </v-content>
-  </v-card>
+    <v-footer dark padless>
+      <v-card class="flex" flat tile>
+        <v-card-title class="teal">
+          <strong class="subheading"
+            >Get connected with us on social networks!</strong
+          >
+
+          <v-spacer></v-spacer>
+
+          <v-btn v-for="icon in icons" :key="icon" class="mx-4" dark icon>
+            <v-icon size="24px">{{ icon }}</v-icon>
+          </v-btn>
+        </v-card-title>
+      </v-card>
+    </v-footer>
+  </v-app>
 </template>
+<script>
+export default {
+  data: () => ({
+    icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram']
+  })
+}
+</script>
