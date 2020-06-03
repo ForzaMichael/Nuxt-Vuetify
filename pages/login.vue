@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      {{ token }}
+      {{ id }}
     </v-card-title>
     <v-card-text>
       <v-form ref="formNode" v-model="valid" lazy-validation>
@@ -38,14 +38,13 @@ import {
   defineComponent,
   computed,
   ref,
-  reactive,
-  watchEffect
+  reactive
+  // watchEffect
   // onMounted
 } from '@vue/composition-api'
-import loginStore from '../store/login' // Todo,继续研究 vuex 的 ts 使用
 export default defineComponent({
   layout: 'login-layout',
-  setup() {
+  setup(props, { root }) {
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
@@ -59,8 +58,8 @@ export default defineComponent({
       (v: string) => !!v || 'E-mail is required',
       (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
     ])
-    const token = computed(() => {
-      return loginStore.state().token // 无响应性
+    const id = computed(() => {
+      return root.$store.state.login.id
     })
 
     // onMounted(() => {
@@ -69,30 +68,22 @@ export default defineComponent({
     const formValidate = () => {
       if (formNode.value.validate()) {
         // console.log(
-        //   loginStore.mutations.changeToken(loginStore.state(), name.value)
+        //   loginStore.mutations.changeId(loginStore.state(), name.value)
         // )
-        loginStore.mutations.changeToken(loginStore.state(), name.value)
-        // this.$router.push('/')
+        root.$store.commit('login/changeId', name.value)
+        // root.$router.push('/')
       }
     }
-    watchEffect(
-      () => {
-        console.log(token)
-      }
-      // {
-      //   onTrigger(e) {
-      //     console.log(1)
-      //     debugger
-      //   }
-      // }
-    )
+    // watchEffect(() => {
+    //   console.log(id)
+    // })
     return {
       valid,
       name,
       nameRules,
       email,
       emailRules,
-      token,
+      id,
       formNode,
       formValidate
     }

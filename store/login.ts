@@ -5,7 +5,7 @@ export default class Login extends VuexModule {
   token = 'default'
   id = -1
   @Mutation
-  changeToken(token: string) {
-    this.token = token
+  changeId(id: number) {
+    this.id = id
   }
 }
