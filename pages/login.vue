@@ -1,10 +1,10 @@
 <template>
   <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      {{ id }}
+      {{ token }}
     </v-card-title>
     <v-card-text>
-      <v-form ref="form" v-model="valid" lazy-validation>
+      <v-form ref="formNode" v-model="valid" lazy-validation>
         <v-text-field
           v-model="name"
           :counter="10"
@@ -27,54 +27,76 @@
         Register
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn :disabled="!valid" color="primary" @click="validate">
+      <v-btn :disabled="!valid" color="primary" @click="formValidate">
         Validate
       </v-btn>
     </v-card-actions>
   </v-card>
 </template>
-<script>
+<script lang="ts">
 import {
   defineComponent,
   computed,
   ref,
   reactive,
-  onMounted
+  watchEffect
+  // onMounted
 } from '@vue/composition-api'
+import loginStore from '../store/login' // Todo,继续研究 vuex 的 ts 使用
 export default defineComponent({
   layout: 'login-layout',
-  setup(props, { root }) {
-    onMounted(() => {
-      console.log(props, root)
-    })
-    const valid = ref(true)
+  setup() {
+    const valid = ref(false)
     const name = ref('')
     const email = ref('')
+    const formNode = ref(null)
     const nameRules = reactive([
-      v => !!v || 'Name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+      (v: string) => !!v || 'Name is required',
+      (v: string) =>
+        (v && v.length <= 10) || 'Name must be less than 10 characters'
     ])
     const emailRules = reactive([
-      v => !!v || 'E-mail is required',
-      v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+      (v: string) => !!v || 'E-mail is required',
+      (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
     ])
-    const id = computed(() => 10)
-    const validate = () => {
-      if (this.$refs.form.validate()) {
-        this.store.commit('changeId', name.value)
+    const token = computed(() => {
+      return loginStore.state().token // 无响应性
+    })
+
+    // onMounted(() => {
+    // })
+
+    const formValidate = () => {
+      if (formNode.value.validate()) {
+        // console.log(
+        //   loginStore.mutations.changeToken(loginStore.state(), name.value)
+        // )
+        loginStore.mutations.changeToken(loginStore.state(), name.value)
         // this.$router.push('/')
       }
     }
+    watchEffect(
+      () => {
+        console.log(token)
+      }
+      // {
+      //   onTrigger(e) {
+      //     console.log(1)
+      //     debugger
+      //   }
+      // }
+    )
     return {
       valid,
       name,
       nameRules,
       email,
       emailRules,
-      id,
-      validate
+      token,
+      formNode,
+      formValidate
     }
-  },
+  }
   // data: () => ({
   //   valid: true,
   //   name: '',
@@ -93,19 +115,19 @@ export default defineComponent({
   //     return this.$store.state.login.id
   //   }
   // },
-  methods: {
-    validate() {
-      if (this.$refs.form.validate()) {
-        this.store.commit('changeId', this.name)
-        // this.$router.push('/')
-      }
-    },
-    reset() {
-      this.$refs.form.reset()
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation()
-    }
-  }
+  //   methods: {
+  //     validate() {
+  //       if (formNode.validate()) {
+  //         this.store.commit('changeId', this.name)
+  //         // this.$router.push('/')
+  //       }
+  //     },
+  //     reset() {
+  //       formNode.reset()
+  //     },
+  //     resetValidation() {
+  //       formNode.resetValidation()
+  //     }
+  //   }
 })
 </script>
