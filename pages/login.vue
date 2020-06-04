@@ -42,9 +42,11 @@ import {
   // watchEffect
   // onMounted
 } from '@vue/composition-api'
+// import { VNode } from 'vue'
+import { loginStore } from '~/store'
 export default defineComponent({
   layout: 'login-layout',
-  setup(props, { root }) {
+  setup() {
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
@@ -59,18 +61,12 @@ export default defineComponent({
       (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
     ])
     const id = computed(() => {
-      return root.$store.state.login.id
+      return loginStore.id
     })
-
-    // onMounted(() => {
-    // })
 
     const formValidate = () => {
       if (formNode.value.validate()) {
-        // console.log(
-        //   loginStore.mutations.changeId(loginStore.state(), name.value)
-        // )
-        root.$store.commit('login/changeId', name.value)
+        loginStore.changeId(name.value)
         // root.$router.push('/')
       }
     }
