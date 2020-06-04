@@ -42,8 +42,13 @@ import {
   // watchEffect
   // onMounted
 } from '@vue/composition-api'
+import { testUser } from '~/types/index'
 // import { VNode } from 'vue'
 import { loginStore } from '~/store'
+// function testUser(params) {
+//   return params[0]
+// }
+// testUser(1)
 export default defineComponent({
   layout: 'login-layout',
   setup() {
@@ -70,6 +75,7 @@ export default defineComponent({
         // root.$router.push('/')
       }
     }
+
     // watchEffect(() => {
     //   console.log(id)
     // })
