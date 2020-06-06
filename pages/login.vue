@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      {{ id }}
+      {{ userAgent }}
     </v-card-title>
     <v-card-text>
       <v-form ref="formNode" v-model="valid" lazy-validation>
@@ -42,20 +42,22 @@ import {
   // watchEffect
   // onMounted
 } from '@vue/composition-api'
-import { testUser } from '~/types/index'
-// import { VNode } from 'vue'
+// import { UserInfo } from '~/types/'
 import { loginStore } from '~/store'
-// function testUser(params) {
-//   return params[0]
-// }
-// testUser(1)
+import { useUserName } from '~/compositionFunctions/User'
 export default defineComponent({
   layout: 'login-layout',
-  setup() {
+  asyncData(context) {
+    const userAgent = context.userAgent
+    return { userAgent }
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setup(props, { root }) {
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
     const formNode = ref(null)
+    const userName = useUserName()
     const nameRules = reactive([
       (v: string) => !!v || 'Name is required',
       (v: string) =>
@@ -65,19 +67,19 @@ export default defineComponent({
       (v: string) => !!v || 'E-mail is required',
       (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
     ])
-    const id = computed(() => {
-      return loginStore.id
+    const token = computed(() => {
+      return loginStore.token
     })
 
     const formValidate = () => {
       if (formNode.value.validate()) {
-        loginStore.changeId(name.value)
-        // root.$router.push('/')
+        loginStore.SET_TOKEN(name.value + (Math.random() * 100).toFixed(2))
+        loginStore.SET_USERS({ name: name.value, email: email.value })
+        root.$router.push('/')
       }
     }
 
     // watchEffect(() => {
-    //   console.log(id)
     // })
     return {
       valid,
@@ -85,42 +87,11 @@ export default defineComponent({
       nameRules,
       email,
       emailRules,
-      id,
+      token,
       formNode,
-      formValidate
+      formValidate,
+      userName
     }
   }
-  // data: () => ({
-  //   valid: true,
-  //   name: '',
-  //   nameRules: [
-  //     v => !!v || 'Name is required',
-  //     v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-  //   ],
-  //   email: '',
-  //   emailRules: [
-  //     v => !!v || 'E-mail is required',
-  //     v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-  //   ]
-  // }),
-  // computed: {
-  //   id() {
-  //     return this.$store.state.login.id
-  //   }
-  // },
-  //   methods: {
-  //     validate() {
-  //       if (formNode.validate()) {
-  //         this.store.commit('changeId', this.name)
-  //         // this.$router.push('/')
-  //       }
-  //     },
-  //     reset() {
-  //       formNode.reset()
-  //     },
-  //     resetValidation() {
-  //       formNode.resetValidation()
-  //     }
-  //   }
 })
 </script>

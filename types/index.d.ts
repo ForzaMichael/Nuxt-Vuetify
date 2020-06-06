@@ -1,5 +1,4 @@
-// import { User } from './login'
-// export * from './login'
+export * from './login'
 // declare interface TestUser {
 //   (userInfo: UserInfo[]): UserInfo
 // }

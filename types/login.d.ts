@@ -1,6 +1,5 @@
-interface UserInfo {
+export interface UserInfo {
   name: string
-  id: number
-  level: number
+  email: string
 }
 // declare const testUser(userInfo: UserInfo[]): UserInfo

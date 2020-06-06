@@ -27,6 +27,12 @@ export default {
    ** Global CSS
    */
   css: [],
+  /**
+   *client middleware
+   */
+  router: {
+    middleware: ['clientSide/userAgent']
+  },
   /*
    ** Plugins to load before mounting the App
    */
@@ -75,6 +81,10 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    // extend(config, ctx) {}
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    }
   }
 }
