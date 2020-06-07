@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      {{ userAgent }}
+      {{ userName }}
     </v-card-title>
     <v-card-text>
       <v-form ref="formNode" v-model="valid" lazy-validation>
@@ -44,10 +44,11 @@ import {
 } from '@vue/composition-api'
 // import { UserInfo } from '~/types/'
 import { loginStore } from '~/store'
-import { useUserName } from '~/compositionFunctions/User'
+import { useUserName } from '~/compositionFunctions/user'
 export default defineComponent({
   layout: 'login-layout',
   asyncData(context) {
+    console.log(context.userAgent)
     const userAgent = context.userAgent
     return { userAgent }
   },

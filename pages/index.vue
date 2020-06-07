@@ -63,9 +63,11 @@
 </template>
 
 <script>
+// import { onMounted } from '@vue/composition-api'
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
-import { useUserName } from '~/compositionFunctions/User'
+import { useUserName } from '~/compositionFunctions/user'
+import { $axios } from '~/utils/api'
 export default {
   components: {
     Logo,
@@ -73,6 +75,7 @@ export default {
   },
   setup() {
     const userName = useUserName()
+    // onMounted(() => {})
     return { userName }
   }
 }

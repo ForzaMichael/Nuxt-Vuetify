@@ -6,6 +6,7 @@
       src="https://picsum.photos/1920/1080?random"
       dense
     >
+      <v-toolbar-title>{{ userAgent }}</v-toolbar-title>
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
@@ -34,9 +35,7 @@
     <v-footer dark padless>
       <v-card class="flex" flat tile>
         <v-card-title class="teal">
-          <strong class="subheading"
-            >Get connected with us on social networks!</strong
-          >
+          <strong class="subheading">Get connected with us!</strong>
 
           <v-spacer></v-spacer>
 
@@ -49,9 +48,21 @@
   </v-app>
 </template>
 <script>
+import { reactive } from '@vue/composition-api'
 export default {
-  data: () => ({
-    icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram']
-  })
+  asyncData(context) {
+    console.log(context)
+    const userAgent = context.userAgent
+    return { userAgent }
+  },
+  setup() {
+    const icons = reactive([
+      'mdi-facebook',
+      'mdi-twitter',
+      'mdi-linkedin',
+      'mdi-instagram'
+    ])
+    return { icons }
+  }
 }
 </script>
