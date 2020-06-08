@@ -7,7 +7,7 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          {{ userName }}, Welcome to the Vuetify + Nuxt.js template
         </v-card-title>
         <v-card-text>
           <p>
@@ -65,11 +65,17 @@
 <script lang="ts">
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
+import { useUserName } from '~/compositionFunctions/user'
+// import { $axios } from '~/utils/api'
 export default {
   components: {
     Logo,
     VuetifyLogo
+  },
+  setup() {
+    const userName = useUserName()
+    // onMounted(() => {})
+    return { userName }
   }
 }
 </script>

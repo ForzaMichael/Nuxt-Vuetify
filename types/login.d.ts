@@ -1,7 +1,6 @@
-interface UserInfo {
+export interface UserInfo {
   name: string
-  id: number
-  level: number
+  email: string
 }
 interface TestUser {
   (userInfo: UserInfo[]): UserInfo

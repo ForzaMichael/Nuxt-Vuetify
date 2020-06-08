@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      {{ id }}
+      {{ userName }}
     </v-card-title>
     <v-card-text>
       <v-form ref="formNode" v-model="valid" lazy-validation>
@@ -42,14 +42,23 @@ import {
   // watchEffect
   // onMounted
 } from '@vue/composition-api'
+// import { UserInfo } from '~/types/'
 import { loginStore } from '~/store'
+import { useUserName } from '~/compositionFunctions/user'
 export default defineComponent({
   layout: 'login-layout',
-  setup() {
+  asyncData(context) {
+    console.log(context.userAgent)
+    const userAgent = context.userAgent
+    return { userAgent }
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setup(props, { root }) {
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
     const formNode = ref(null)
+    const userName = useUserName()
     const nameRules = reactive([
       (v: string) => !!v || 'Name is required',
       (v: string) =>
@@ -59,14 +68,15 @@ export default defineComponent({
       (v: string) => !!v || 'E-mail is required',
       (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid'
     ])
-    const id = computed(() => {
-      return loginStore.id
+    const token = computed(() => {
+      return loginStore.token
     })
 
     const formValidate = () => {
       if (formNode.value.validate()) {
-        loginStore.changeId(name.value)
-        // root.$router.push('/')
+        loginStore.SET_TOKEN(name.value + (Math.random() * 100).toFixed(2))
+        loginStore.SET_USERS({ name: name.value, email: email.value })
+        root.$router.push('/')
       }
     }
 
@@ -76,9 +86,10 @@ export default defineComponent({
       nameRules,
       email,
       emailRules,
-      id,
+      token,
       formNode,
-      formValidate
+      formValidate,
+      userName
     }
   }
 })
