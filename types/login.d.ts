@@ -3,4 +3,6 @@ interface UserInfo {
   id: number
   level: number
 }
-// declare const testUser(userInfo: UserInfo[]): UserInfo
+interface TestUser {
+  (userInfo: UserInfo[]): UserInfo
+}

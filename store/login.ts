@@ -23,9 +23,10 @@ export default class LoginStore extends VuexModule {
   }
 
   @Mutation
-  // testUser(users) {
-  //   console.log(a)
-  // }
+  testUser(users: UserInfo[]): UserInfo {
+    return users[0]
+  }
+
   @Action
   async getUsers() {
     const users = await $axios.$get<UserInfo[]>('/users')

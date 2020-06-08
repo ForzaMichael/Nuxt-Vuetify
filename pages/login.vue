@@ -42,13 +42,7 @@ import {
   // watchEffect
   // onMounted
 } from '@vue/composition-api'
-import { testUser } from '~/types/index'
-// import { VNode } from 'vue'
 import { loginStore } from '~/store'
-// function testUser(params) {
-//   return params[0]
-// }
-// testUser(1)
 export default defineComponent({
   layout: 'login-layout',
   setup() {
@@ -76,9 +70,6 @@ export default defineComponent({
       }
     }
 
-    // watchEffect(() => {
-    //   console.log(id)
-    // })
     return {
       valid,
       name,
@@ -90,37 +81,5 @@ export default defineComponent({
       formValidate
     }
   }
-  // data: () => ({
-  //   valid: true,
-  //   name: '',
-  //   nameRules: [
-  //     v => !!v || 'Name is required',
-  //     v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-  //   ],
-  //   email: '',
-  //   emailRules: [
-  //     v => !!v || 'E-mail is required',
-  //     v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-  //   ]
-  // }),
-  // computed: {
-  //   id() {
-  //     return this.$store.state.login.id
-  //   }
-  // },
-  //   methods: {
-  //     validate() {
-  //       if (formNode.validate()) {
-  //         this.store.commit('changeId', this.name)
-  //         // this.$router.push('/')
-  //       }
-  //     },
-  //     reset() {
-  //       formNode.reset()
-  //     },
-  //     resetValidation() {
-  //       formNode.resetValidation()
-  //     }
-  //   }
 })
 </script>
