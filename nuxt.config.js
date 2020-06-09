@@ -28,10 +28,10 @@ export default {
    */
   css: [],
   /**
-   *client middleware
+   *route middleware
    */
   router: {
-    middleware: ['clientSide/userAgent']
+    middleware: ['userAgent']
   },
   /*
    ** Plugins to load before mounting the App

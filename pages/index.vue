@@ -7,7 +7,7 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          {{ userName }}, Welcome to the Vuetify + Nuxt.js template
+          {{ userName }}, Welcome to the {{ userAgent }}
         </v-card-title>
         <v-card-text>
           <p>
@@ -71,6 +71,10 @@ export default {
   components: {
     Logo,
     VuetifyLogo
+  },
+  asyncData(context) {
+    const userAgent = context.app.userAgent
+    return { userAgent }
   },
   setup() {
     const userName = useUserName()

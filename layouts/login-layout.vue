@@ -6,7 +6,7 @@
       src="https://picsum.photos/1920/1080?random"
       dense
     >
-      <v-toolbar-title>{{ userAgent }}</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
       <template v-slot:img="{ props }">
         <v-img
           v-bind="props"
@@ -50,11 +50,6 @@
 <script>
 import { reactive } from '@vue/composition-api'
 export default {
-  asyncData(context) {
-    console.log(context)
-    const userAgent = context.userAgent
-    return { userAgent }
-  },
   setup() {
     const icons = reactive([
       'mdi-facebook',

@@ -1,8 +1,8 @@
 {
   "name": "my-first-nuxt",
   "version": "1.0.0",
-  "description": "My swell Nuxt.js project",
-  "author": "Liqi",
+  "description": "My first Nuxt.js project",
+  "author": "LiQi",
   "private": true,
   "scripts": {
     "dev": "nuxt",

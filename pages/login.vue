@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      {{ userName }}
+      {{ userAgent }}
     </v-card-title>
     <v-card-text>
       <v-form ref="formNode" v-model="valid" lazy-validation>
@@ -34,22 +34,13 @@
   </v-card>
 </template>
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  ref,
-  reactive
-  // watchEffect
-  // onMounted
-} from '@vue/composition-api'
-// import { UserInfo } from '~/types/'
+import { computed, ref, reactive } from '@vue/composition-api'
 import { loginStore } from '~/store'
 import { useUserName } from '~/compositionFunctions/user'
-export default defineComponent({
+export default {
   layout: 'login-layout',
   asyncData(context) {
-    console.log(context.userAgent)
-    const userAgent = context.userAgent
+    const userAgent = context.app.userAgent
     return { userAgent }
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -74,6 +65,8 @@ export default defineComponent({
 
     const formValidate = () => {
       if (formNode.value.validate()) {
+        // const users = await root.$axios.$get('/users')
+        // console.log(users)
         loginStore.SET_TOKEN(name.value + (Math.random() * 100).toFixed(2))
         loginStore.SET_USERS({ name: name.value, email: email.value })
         root.$router.push('/')
@@ -92,5 +85,5 @@ export default defineComponent({
       userName
     }
   }
-})
+}
 </script>
