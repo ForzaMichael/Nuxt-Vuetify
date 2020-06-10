@@ -36,7 +36,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/composition-api', '@/plugins/axios-accessor'],
+  plugins: [
+    '@/plugins/composition-api',
+    '@/plugins/axios-accessor',
+    '@/plugins/inject'
+  ],
   /*
    ** Nuxt.js dev-modules
    */

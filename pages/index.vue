@@ -63,11 +63,12 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, onMounted } from '@vue/composition-api'
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import { useUserName } from '~/compositionFunctions/user'
 // import { $axios } from '~/utils/api'
-export default {
+export default defineComponent({
   components: {
     Logo,
     VuetifyLogo
@@ -76,10 +77,12 @@ export default {
     const userAgent = context.app.userAgent
     return { userAgent }
   },
-  setup() {
+  setup(props, { root }) {
     const userName = useUserName()
-    // onMounted(() => {})
+    onMounted(() => {
+      root.$inject(1)
+    })
     return { userName }
   }
-}
+})
 </script>

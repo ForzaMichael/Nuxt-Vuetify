@@ -34,12 +34,15 @@
   </v-card>
 </template>
 <script lang="ts">
-import { computed, ref, reactive } from '@vue/composition-api'
+import { computed, ref, reactive, defineComponent } from '@vue/composition-api'
 import { loginStore } from '~/store'
 import { useUserName } from '~/compositionFunctions/user'
-export default {
+export default defineComponent({
   layout: 'login-layout',
   asyncData(context) {
+    if (process.server) {
+      console.log(context)
+    }
     const userAgent = context.app.userAgent
     return { userAgent }
   },
@@ -64,11 +67,11 @@ export default {
     })
 
     const formValidate = () => {
-      if (formNode.value.validate()) {
+      if ((formNode.value as any).validate()) {
         // const users = await root.$axios.$get('/users')
-        // console.log(users)
         loginStore.SET_TOKEN(name.value + (Math.random() * 100).toFixed(2))
         loginStore.SET_USERS({ name: name.value, email: email.value })
+        root.$inject('liqi')
         root.$router.push('/')
       }
     }
@@ -85,5 +88,5 @@ export default {
       userName
     }
   }
-}
+})
 </script>

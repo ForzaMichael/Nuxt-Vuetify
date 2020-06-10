@@ -1,7 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { SET_TOKEN, SET_USERS } from './mutationsTypes'
 import { $axios } from '~/utils/api'
-import { UserInfo } from '~/types'
 /**
  * Decorator选项的 name 要与本文件名相同
  * ( vuex-module-decorators 要求 name 与 vuex 模块的名称相同,以用此 name 拼接成完整的 vuex 模块化调用的路径,
