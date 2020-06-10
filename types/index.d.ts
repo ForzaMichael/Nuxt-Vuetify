@@ -1,4 +1,3 @@
-export * from './login'
 // declare interface TestUser {
 //   (userInfo: UserInfo[]): UserInfo
 // }

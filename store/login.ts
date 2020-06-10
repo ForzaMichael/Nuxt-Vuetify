@@ -10,7 +10,7 @@ import { $axios } from '~/utils/api'
 @Module({ name: 'login', stateFactory: true, namespaced: true })
 export default class LoginStore extends VuexModule {
   public token = 'default'
-  public user: UserInfo = { name: '', email: '' };
+  public user: UserInfo = { id: '', username: '', email: '' };
   @Mutation
   [SET_TOKEN](token: string) {
     this.token = token

@@ -7,7 +7,7 @@
       </div>
       <v-card>
         <v-card-title class="headline">
-          {{ userName }}, Welcome to the {{ userAgent }}
+          {{ userName }}, Welcome to the {{ users }}
         </v-card-title>
         <v-card-text>
           <p>
@@ -63,26 +63,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from '@vue/composition-api'
+import { onMounted } from '@vue/composition-api'
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import { useUserName } from '~/compositionFunctions/user'
 // import { $axios } from '~/utils/api'
-export default defineComponent({
+export default {
   components: {
     Logo,
     VuetifyLogo
   },
-  asyncData(context) {
+  async asyncData(context) {
+    const users = await context.$axios.$get<UserInfo[]>('/users')
     const userAgent = context.app.userAgent
-    return { userAgent }
+    return { userAgent, users }
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
     const userName = useUserName()
     onMounted(() => {
-      root.$inject(1)
+      root.$inject('ha')
     })
     return { userName }
   }
-})
+}
 </script>

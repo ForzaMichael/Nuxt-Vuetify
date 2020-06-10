@@ -34,15 +34,16 @@
   </v-card>
 </template>
 <script lang="ts">
-import { computed, ref, reactive, defineComponent } from '@vue/composition-api'
+import { computed, ref, reactive } from '@vue/composition-api'
 import { loginStore } from '~/store'
-import { useUserName } from '~/compositionFunctions/user'
-export default defineComponent({
+// import { useUserName } from '~/compositionFunctions/user'
+export default {
   layout: 'login-layout',
+  // asyncData在使用defineConponent时无法获取类型
   asyncData(context) {
-    if (process.server) {
-      console.log(context)
-    }
+    // if (process.server) {
+    //   // console.log(context)
+    // }
     const userAgent = context.app.userAgent
     return { userAgent }
   },
@@ -52,7 +53,7 @@ export default defineComponent({
     const name = ref('')
     const email = ref('')
     const formNode = ref(null)
-    const userName = useUserName()
+    // const userName = useUserName()
     const nameRules = reactive([
       (v: string) => !!v || 'Name is required',
       (v: string) =>
@@ -65,14 +66,27 @@ export default defineComponent({
     const token = computed(() => {
       return loginStore.token
     })
-
-    const formValidate = () => {
+    const formValidate = async () => {
       if ((formNode.value as any).validate()) {
-        // const users = await root.$axios.$get('/users')
-        loginStore.SET_TOKEN(name.value + (Math.random() * 100).toFixed(2))
-        loginStore.SET_USERS({ name: name.value, email: email.value })
+        const users = await root.$axios.$get<UserInfo[]>('/users')
+        users.every((item, index) => {
+          if (item.username === name.value) {
+            loginStore.SET_TOKEN(item.id + Math.random)
+            loginStore.SET_USERS({
+              id: item.id,
+              username: name.value,
+              email: email.value
+            })
+            root.$router.push('/')
+            return false
+          } else {
+            if (index === users.length) {
+              alert('message error!')
+            }
+            return true
+          }
+        })
         root.$inject('liqi')
-        root.$router.push('/')
       }
     }
 
@@ -84,9 +98,8 @@ export default defineComponent({
       emailRules,
       token,
       formNode,
-      formValidate,
-      userName
+      formValidate
     }
   }
-})
+}
 </script>
