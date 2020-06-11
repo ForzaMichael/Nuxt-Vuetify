@@ -34,21 +34,26 @@
   </v-card>
 </template>
 <script lang="ts">
-import { computed, ref, reactive } from '@vue/composition-api'
+import {
+  computed,
+  ref,
+  reactive,
+  defineComponent,
+  useContext,
+  useAsync
+} from 'nuxt-composition-api'
 import { loginStore } from '~/store'
 // import { useUserName } from '~/compositionFunctions/user'
-export default {
+export default defineComponent({
   layout: 'login-layout',
-  // asyncData在使用defineConponent时无法获取类型
-  asyncData(context) {
-    // if (process.server) {
-    //   // console.log(context)
-    // }
-    const userAgent = context.app.userAgent
-    return { userAgent }
-  },
+  // composition-api don't support SSR，use nuxt-composition-api module for help
+  // asyncData(context) {
+  // },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
+    const { app, $axios } = useContext()
+    const userAgent = app.userAgent
+    const serverSideData = useAsync(() => $axios.$get<UserInfo[]>('/users')) // server-side only,return ref(null) on client-side
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
@@ -98,8 +103,10 @@ export default {
       emailRules,
       token,
       formNode,
-      formValidate
+      formValidate,
+      userAgent,
+      serverSideData
     }
   }
-}
+})
 </script>

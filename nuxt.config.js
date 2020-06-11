@@ -44,7 +44,11 @@ export default {
   /*
    ** Nuxt.js dev-modules
    */
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/vuetify'],
+  buildModules: [
+    '@nuxt/typescript-build',
+    '@nuxtjs/vuetify',
+    'nuxt-composition-api'
+  ],
   /*
    ** Nuxt.js modules
    */
@@ -90,5 +94,9 @@ export default {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
     }
+  },
+  generate: {
+    // choose to suit your project
+    interval: 2000
   }
 }

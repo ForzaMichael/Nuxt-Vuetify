@@ -63,21 +63,22 @@
 </template>
 
 <script lang="ts">
-import { onMounted } from '@vue/composition-api'
+import { onMounted, defineComponent } from '@vue/composition-api'
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import { useUserName } from '~/compositionFunctions/user'
 // import { $axios } from '~/utils/api'
-export default {
+export default defineComponent({
   components: {
     Logo,
     VuetifyLogo
   },
-  async asyncData(context) {
-    const users = await context.$axios.$get<UserInfo[]>('/users')
-    const userAgent = context.app.userAgent
-    return { userAgent, users }
-  },
+  // async asyncData(context) {
+  //   const users = await context.$axios.$get<UserInfo[]>('/users')
+  //   console.log(users)
+  //   const userAgent = context.app.userAgent
+  //   return { userAgent, users }
+  // },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
     const userName = useUserName()
@@ -86,5 +87,5 @@ export default {
     })
     return { userName }
   }
-}
+})
 </script>
