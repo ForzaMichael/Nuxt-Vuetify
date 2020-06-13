@@ -11,7 +11,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:nuxt/recommended'
   ],
-  plugins: ['prettier'],
+  plugins: ['prettier']
   // add your custom rules here
-  rules: {}
+  // rules: { 'comma-dangle': [2, 'never'] }
 }

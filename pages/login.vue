@@ -48,21 +48,26 @@ export default defineComponent({
   layout: 'login-layout',
   // composition-api don't support SSR，use nuxt-composition-api module for help
   // asyncData(context) {
+  //   console.log(context)
   // },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
-    const { app, $axios } = useContext()
-    const userAgent = app.userAgent
-    const serverSideData = useAsync(() => $axios.$get<UserInfo[]>('/users')) // server-side only,return ref(null) on client-side
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
     const formNode = ref(null)
+    const userAgent = ref('')
     // const userName = useUserName()
+    const context = useContext()
+    // console.log(context)
+    userAgent.value = context.app.userAgent
+    const serverSideData = useAsync(() =>
+      context.$axios.$get<UserInfo[]>('/users')
+    ) // useAsync() runs on server-side only,return ref(null) on client-side
     const nameRules = reactive([
       (v: string) => !!v || 'Name is required',
       (v: string) =>
-        (v && v.length <= 10) || 'Name must be less than 10 characters'
+        (v && v.length <= 20) || 'Name must be less than 10 characters'
     ])
     const emailRules = reactive([
       (v: string) => !!v || 'E-mail is required',

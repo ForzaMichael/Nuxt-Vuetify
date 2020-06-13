@@ -14,7 +14,25 @@
   </v-layout>
 </template>
 <script>
-export default {
-  data: () => ({})
-}
+import {
+  defineComponent,
+  useFetch,
+  useContext,
+  ref
+} from 'nuxt-composition-api'
+
+export default defineComponent({
+  setup() {
+    const posts = ref(null)
+    const { $http } = useContext()
+
+    useFetch(async () => {
+      posts.value = await $http
+        .$get('https://jsonplaceholder.typicode.com/posts')
+        .then(posts => posts.slice(0, 20))
+    })
+
+    return { posts }
+  }
+})
 </script>

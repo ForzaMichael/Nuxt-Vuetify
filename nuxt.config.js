@@ -31,13 +31,13 @@ export default {
    *route middleware
    */
   router: {
-    middleware: ['userAgent']
+    middleware: ['userAgent', 'serverSide/serverSide']
   },
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '@/plugins/composition-api',
+    // '@/plugins/composition-api', //nuxt-composition-api enable it separately
     '@/plugins/axios-accessor',
     '@/plugins/inject'
   ],
@@ -45,9 +45,9 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    'nuxt-composition-api',
     '@nuxt/typescript-build',
-    '@nuxtjs/vuetify',
-    'nuxt-composition-api'
+    '@nuxtjs/vuetify'
   ],
   /*
    ** Nuxt.js modules

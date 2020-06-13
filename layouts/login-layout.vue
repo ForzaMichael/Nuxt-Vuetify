@@ -48,16 +48,9 @@
   </v-app>
 </template>
 <script>
-import { reactive } from '@vue/composition-api'
 export default {
-  setup() {
-    const icons = reactive([
-      'mdi-facebook',
-      'mdi-twitter',
-      'mdi-linkedin',
-      'mdi-instagram'
-    ])
-    return { icons }
-  }
+  data: () => ({
+    icons: ['mdi-facebook', 'mdi-twitter', 'mdi-linkedin', 'mdi-instagram']
+  })
 }
 </script>

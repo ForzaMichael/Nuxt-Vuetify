@@ -1,4 +1,4 @@
-import { computed } from '@vue/composition-api'
+import { computed } from 'nuxt-composition-api'
 import { loginStore } from '~/store'
 export function useUserName() {
   const userName = computed(() => {
