@@ -52,14 +52,13 @@ export default defineComponent({
   // },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
+    const context = useContext()
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
     const formNode = ref(null)
     const userAgent = ref('')
     // const userName = useUserName()
-    const context = useContext()
-    // console.log(context)
     userAgent.value = context.app.userAgent
     const serverSideData = useAsync(() =>
       context.$axios.$get<UserInfo[]>('/users')

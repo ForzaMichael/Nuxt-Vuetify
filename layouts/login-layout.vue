@@ -29,9 +29,9 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
-    <v-content class="d-flex justify-center align-center">
+    <v-main class="d-flex justify-center align-center">
       <nuxt />
-    </v-content>
+    </v-main>
     <v-footer dark padless>
       <v-card class="flex" flat tile>
         <v-card-title class="teal">
