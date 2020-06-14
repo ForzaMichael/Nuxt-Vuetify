@@ -24,10 +24,10 @@ import {
 export default defineComponent({
   setup() {
     const posts = ref(null)
-    const { $http } = useContext()
+    const { $axios } = useContext()
 
     useFetch(async () => {
-      posts.value = await $http
+      posts.value = await $axios
         .$get('https://jsonplaceholder.typicode.com/posts')
         .then(posts => posts.slice(0, 20))
     })

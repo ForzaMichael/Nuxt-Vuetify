@@ -23,22 +23,26 @@ import {
   defineComponent,
   useFetch,
   useContext,
-  ref
+  ref,
+  onMounted
 } from 'nuxt-composition-api'
-
+import { useUserName } from '~/compositionFunctions/userName'
 export default defineComponent({
-  setup() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setup(props, { root }) {
     const posts = ref(null)
-
     const { $axios } = useContext()
-
+    const userName = useUserName()
     useFetch(async () => {
       posts.value = await $axios
         .$get('https://jsonplaceholder.typicode.com/posts')
         .then(posts => posts.slice(0, 20))
     })
+    onMounted(() => {
+      root.$inject('from index')
+    })
 
-    return { posts }
+    return { posts, userName }
   }
 })
 </script>

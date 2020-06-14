@@ -1,3 +1,3 @@
 import Vue from 'vue'
 Vue.prototype.$inject = (param: string) =>
-  console.log('This is an example', param)
+  console.log('This is injection', param)

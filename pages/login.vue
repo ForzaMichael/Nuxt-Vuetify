@@ -1,7 +1,10 @@
 <template>
-  <v-card class="mx-auto" hover width="400" elevation="5" shaped>
+  <div>
+    {{ serverSideData }}
+  </div>
+  <!-- <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
-      {{ userAgent }}
+      {{ foo }}
     </v-card-title>
     <v-card-text>
       <v-form ref="formNode" v-model="valid" lazy-validation>
@@ -31,7 +34,7 @@
         Validate
       </v-btn>
     </v-card-actions>
-  </v-card>
+  </v-card> -->
 </template>
 <script lang="ts">
 import {
@@ -40,16 +43,13 @@ import {
   reactive,
   defineComponent,
   useContext,
-  useAsync
+  useAsync,
+  ssrRef
 } from 'nuxt-composition-api'
 import { loginStore } from '~/store'
 // import { useUserName } from '~/compositionFunctions/user'
 export default defineComponent({
   layout: 'login-layout',
-  // composition-api don't support SSR，use nuxt-composition-api module for help
-  // asyncData(context) {
-  //   console.log(context)
-  // },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
     const context = useContext()
@@ -58,10 +58,11 @@ export default defineComponent({
     const email = ref('')
     const formNode = ref(null)
     const userAgent = ref('')
-    // const userName = useUserName()
+    const foo = ssrRef('server init')
+    // foo.value = 'liqi'
     userAgent.value = context.app.userAgent
-    const serverSideData = useAsync(() =>
-      context.$axios.$get<UserInfo[]>('/users')
+    const serverSideData = useAsync(
+      async () => await context.$axios.$get<UserInfo[]>('/users')
     ) // useAsync() runs on server-side only,return ref(null) on client-side
     const nameRules = reactive([
       (v: string) => !!v || 'Name is required',
@@ -109,7 +110,8 @@ export default defineComponent({
       formNode,
       formValidate,
       userAgent,
-      serverSideData
+      serverSideData,
+      foo
     }
   }
 })
