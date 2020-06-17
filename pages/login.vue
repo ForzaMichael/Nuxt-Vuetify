@@ -1,8 +1,5 @@
 <template>
-  <div>
-    {{ serverSideData }}
-  </div>
-  <!-- <v-card class="mx-auto" hover width="400" elevation="5" shaped>
+  <v-card class="mx-auto" hover width="400" elevation="5" shaped>
     <v-card-title>
       {{ foo }}
     </v-card-title>
@@ -34,7 +31,7 @@
         Validate
       </v-btn>
     </v-card-actions>
-  </v-card> -->
+  </v-card>
 </template>
 <script lang="ts">
 import {
@@ -59,11 +56,11 @@ export default defineComponent({
     const formNode = ref(null)
     const userAgent = ref('')
     const foo = ssrRef('server init')
-    // foo.value = 'liqi'
     userAgent.value = context.app.userAgent
+    // useAsync() runs on server-side only,return ref(null) on client-side
     const serverSideData = useAsync(
       async () => await context.$axios.$get<UserInfo[]>('/users')
-    ) // useAsync() runs on server-side only,return ref(null) on client-side
+    )
     const nameRules = reactive([
       (v: string) => !!v || 'Name is required',
       (v: string) =>
@@ -76,6 +73,7 @@ export default defineComponent({
     const token = computed(() => {
       return loginStore.token
     })
+
     const formValidate = async () => {
       if ((formNode.value as any).validate()) {
         const users = await root.$axios.$get<UserInfo[]>('/users')
@@ -99,7 +97,6 @@ export default defineComponent({
         root.$inject('liqi')
       }
     }
-
     return {
       valid,
       name,

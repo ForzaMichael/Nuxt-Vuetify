@@ -9,9 +9,7 @@
           </n-link>
         </li>
         <li>
-          <n-link to="/posts/404">
-            404 post
-          </n-link>
+          <n-link to="/posts/404"> 404 post </n-link>
         </li>
       </ul>
     </template>
@@ -34,9 +32,8 @@ export default defineComponent({
     const { $axios } = useContext()
     const userName = useUserName()
     useFetch(async () => {
-      posts.value = await $axios
-        .$get('https://jsonplaceholder.typicode.com/posts')
-        .then(posts => posts.slice(0, 20))
+      console.log('fetch')
+      posts.value = (await $axios.$get('/posts')).slice(0, 20)
     })
     onMounted(() => {
       root.$inject('from index')

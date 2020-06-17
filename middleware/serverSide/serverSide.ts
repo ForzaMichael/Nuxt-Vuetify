@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
 // import { useContext } from 'nuxt-composition-api'
-export default context => {
-  console.log('this is server')
-  if (!process.server) {
+import { Context } from '@nuxt/types'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default (_context: Context) => {
+  if (process.server) {
+    console.log('this is server')
+  } else {
     console.log('this is client')
   }
-  // const contexts = useContext()
-  // next()
 }
