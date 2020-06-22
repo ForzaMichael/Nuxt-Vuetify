@@ -20,28 +20,49 @@ import {
   useContext,
   shallowSsrRef,
   onMounted,
-  useAsync
+  useAsync,
+  onUnmounted,
+  watchEffect
 } from 'nuxt-composition-api'
 
 export default defineComponent({
   setup() {
     const shallow = shallowSsrRef({ v: 'init' })
     if (process.server) shallow.value = { v: 'changed' }
-    onMounted(() => {
-      shallow.value.v = 'mounted changed'
-    })
+
     // const posts = ref(null)
+
     const { $axios } = useContext()
+    // console.log(posts.value)
     const posts = useAsync(async () => {
       console.log('async')
-      return await $axios.$get('/posts')
+      return (await $axios.$get('/posts')).slice(0, 20)
     })
+    console.log(posts.value)
+
     // useFetch(async () => {
     //   posts.value = await $axios
     //     .$get('https://jsonplaceholder.typicode.com/posts')
     //     .then(posts => posts.slice(0, 20))
     // })
-
+    watchEffect(
+      () => {
+        console.log(posts.value)
+      },
+      {
+        onTrigger(e) {
+          debugger
+          console.log(e)
+        }
+      }
+    )
+    onMounted(() => {
+      shallow.value.v = 'mounted changed'
+    })
+    onUnmounted(() => {
+      posts.value = null
+      console.log(posts.value)
+    })
     return { posts, shallow }
   }
 })

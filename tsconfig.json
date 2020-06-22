@@ -16,9 +16,11 @@
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
-      // "*": ["./types/*"]
     },
     "types": ["@types/node", "@nuxt/types", "@nuxtjs/axios", "vuetify"]
   },
-  "exclude": ["node_modules", ".nuxt", "dist"]
+  "exclude": ["node_modules", ".nuxt", "dist"],
+  "rules": {
+    "interface-name": [true, "always-prefix"]
+  }
 }

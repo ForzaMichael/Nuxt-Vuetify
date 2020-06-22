@@ -49,17 +49,21 @@ export default defineComponent({
   layout: 'login-layout',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, { root }) {
-    const context = useContext()
+    const { app, $axios } = useContext()
     const valid = ref(false)
     const name = ref('')
     const email = ref('')
-    const formNode = ref(null)
+    const formNode = ref(
+      null || {
+        validate: () => false
+      }
+    )
     const userAgent = ref('')
     const foo = ssrRef('server init')
-    userAgent.value = context.app.userAgent
+    userAgent.value = app.userAgent
     // useAsync() runs on server-side only,return ref(null) on client-side
     const serverSideData = useAsync(
-      async () => await context.$axios.$get<UserInfo[]>('/users')
+      async () => await $axios.$get<UserInfo[]>('/users')
     )
     const nameRules = reactive([
       (v: string) => !!v || 'Name is required',
@@ -75,7 +79,8 @@ export default defineComponent({
     })
 
     const formValidate = async () => {
-      if ((formNode.value as any).validate()) {
+      if (formNode.value.validate()) {
+        console.log(1)
         const users = await root.$axios.$get<UserInfo[]>('/users')
         users.every((item, index) => {
           if (item.username === name.value) {

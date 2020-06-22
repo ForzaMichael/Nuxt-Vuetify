@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // import { useContext } from 'nuxt-composition-api'
 import { Context } from '@nuxt/types'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

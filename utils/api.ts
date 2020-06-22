@@ -7,6 +7,7 @@ export function initializeAxios(axiosInstance: NuxtAxiosInstance) {
   $axios = axiosInstance
   // $axios.timeout
   $axios.onRequest(config => {
+    console.log(config.url)
     config.url = baseUrl + config.url
     return config
   })
